@@ -22,11 +22,15 @@
 <body>
     <h1>Введите пароль</h1>
     <form id="passwordForm">
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">Проверить</button>
-        <button type="button" onclick="generatePassword()">Сгенерировать хороший пароль</button>
-        <div id="generated" name="generated"></div>
+        <div>
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Проверить</button>
+        </div>
+        <div>
+            <button type="button" onclick="generatePassword()">Сгенерировать хороший пароль</button>
+            <div id="generated" name="generated"></div>  
+        </div>
     </form>
     <p id="message" class="error"></p>
 
