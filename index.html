@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пример страницы</title>
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #000000; 
+            font-size: 36px; 
+            text-align: center;
+        }
+        .error {
+            color: #FF7700;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Введите пароль</h1>
+    <form id="passwordForm">
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Проверить</button>
+        <div id="generated" name="generated"></div>
+        <button type="button" onclick="generatePassword()">Сгенерировать хороший пароль</button>
+    </form>
+    <p id="message" class="error"></p>
+
+    <script>
+        document.getElementById('passwordForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Предотвращаем отправку формы
+            checkPassword();
+        });
+        
+        function generatePassword() {
+            const length = 16;
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{};':\"\\|,.<>/?";
+            let password = "";
+            while (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/\d/.test(password) || !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+                password = "";
+                for (let i = 0, n = charset.length; i < length; ++i) {
+                    password += charset.charAt(Math.floor(Math.random() * n));
+                }
+            }
+            document.getElementById('generated').textContent = password;
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            const message = document.getElementById('message');
+
+            if (password.length < 8) {
+                message.textContent = 'Пароль должен содержать более 8 символов.';
+                message.classList.add('error');
+                message.classList.remove('success');
+                return;
+            }
+
+            const hasLower = /[a-z]/.test(password);
+            const hasUpper = /[A-Z]/.test(password);
+            const hasDigit = /\d/.test(password);
+            const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+            if (!hasLower || !hasUpper || !hasDigit || !hasSpecialChar) {
+                message.textContent = 'Пароль должен содержать строчные и прописные буквы, цифры и спецсимволы.';
+                message.classList.add('error');
+                message.classList.remove('success');
+            } else {
+                message.textContent = 'Пароль безопасен.';
+                message.classList.remove('error');
+                message.classList.add('success');
+            }
+        }
+    </script>
+</body>
+</html>
